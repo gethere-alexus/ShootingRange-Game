@@ -9,11 +9,13 @@ public class CratesManager : MonoBehaviour
     enum TypeCrate
     {
         hp,
-        clips
+        clips,
+        rifle,
+        pistol
     }
     [SerializeField] private TextMeshProUGUI takeText;
     [SerializeField] private TypeCrate typeCrate;
-    [SerializeField] private ShootingManager shootingManager;
+    [SerializeField] private GunManager gunManager;
     [SerializeField] private HealthSystem healthSystem;
 
     private int countOfItemInside;
@@ -33,26 +35,26 @@ public class CratesManager : MonoBehaviour
     {
         string msg = "Press 'E' to take " + countOfItemInside.ToString() + " " + typeCrate;
         takeText.text = msg;
-        takeText.gameObject.SetActive(true);   
+        takeText.enabled = true;   
     }
     void OnTriggerExit(Collider other) 
     {
-        takeText.gameObject.SetActive(false);    
+        takeText.enabled = false;    
     }
     void OnTriggerStay(Collider other) 
     {
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) && other.gameObject.name == "Player")
         {
             if(typeCrate == TypeCrate.clips)
             {
-            shootingManager.magazinesCount += countOfItemInside;
+            gunManager.magazinesCount += countOfItemInside;
             }
             else if(typeCrate == TypeCrate.hp)
             {
                 healthSystem.health += countOfItemInside;
             }
 
-            takeText.gameObject.SetActive(false);
+            takeText.enabled = false;
             Destroy(this.gameObject);
         }
     }

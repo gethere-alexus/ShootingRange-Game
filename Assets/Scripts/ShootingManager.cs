@@ -6,40 +6,46 @@ using UnityEngine.UI;
 
 public class ShootingManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _gunBodyObj;
-    [SerializeField] private GameObject _gunMuzzleObj;
-    [SerializeField] private GameObject _gunMagObj;
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private GameObject _scopeedOffset;
-    [SerializeField] private GameObject _unscopeedOffset;
+    [SerializeField]private GunManager _gunManager;
+    [SerializeField]private Animator _mainAnimator;
+    [SerializeField]private GameObject _gunBodyObj;
+    [SerializeField]private GameObject _gunMuzzleObj;
+    [SerializeField]private GameObject _bulletPrefab;
+    [SerializeField]private int magazineCount = 5;
+    [SerializeField]private int inClipBulletsCount = 30;
+    [SerializeField]private int bulletsCount = 30;
     
-    [SerializeField] private TextMeshProUGUI bulletsText;
-    [SerializeField] private TextMeshProUGUI magazineText;
+    [SerializeField]private float shootingCoolDown = 0.08f;
+    [SerializeField]private float reloadingTime = 3.0f;
 
-    [SerializeField] private Animator _mainAnimator;
-    [SerializeField] private Camera _camera;
-
-    private bool isCoolDCompleted = true;
-    [SerializeField]private bool isReloading;
-    private bool isCanScoped;
-
-    private float bulletCount;
     [HideInInspector]public float magazinesCount;
-    private float shootingCoolDown = 0.08f;
-    private float reloadingTime = 3.0f;
+    private bool isCanScoped;
+    private bool isReloading;
+    private bool isCoolDCompleted = true;
+    private float bulletCount;
     private float afterReloadingTime = 0.5f;
 
     private int scoppedFOV = 35;
     private int unscoppedFOV = 55;
-    private int rifleBulletsCount = 30;
-    private int defaultMagazineCount = 5;
+
+    private GameObject _scopeedOffset;
+    private GameObject _unscopeedOffset;
+    private TextMeshProUGUI bulletsText;
+    private TextMeshProUGUI magazineText;
+    private Camera _camera;
 
     void Start() 
     {
         _mainAnimator = _gunBodyObj.GetComponent<Animator>();
+        _camera = _gunManager._camera;
+        magazineText = _gunManager.magazineText;
+        bulletsText = _gunManager.bulletsText;
+        _unscopeedOffset = _gunManager._unscopeedOffset;
+        _scopeedOffset = _gunManager._scopeedOffset;
 
-        bulletCount = rifleBulletsCount;
-        magazinesCount = defaultMagazineCount;
+
+        bulletCount = bulletsCount;
+        magazinesCount = magazineCount;
 
         isReloading = false;
         isCanScoped = true;
@@ -66,8 +72,7 @@ public class ShootingManager : MonoBehaviour
 
         yield return new WaitForSeconds(reloadingTime);
 
-        _mainAnimator.SetBool("isPlayerReload" , false);
-        bulletCount = rifleBulletsCount;
+        bulletCount = bulletsCount;
         magazinesCount--;
 
         yield return new WaitForSeconds(afterReloadingTime);
@@ -93,7 +98,6 @@ public class ShootingManager : MonoBehaviour
         if(Input.GetKey(KeyCode.R) && !isReloading)
         { 
             isReloading = true;
-            _mainAnimator.SetBool("isPlayerReload" , true);
             StartCoroutine(WaitForReloading());
         }
     }
@@ -105,6 +109,7 @@ public class ShootingManager : MonoBehaviour
         if(Input.GetMouseButton(1) && isCanScoped)
         {
             _gunBodyObj.transform.position = _scopeedOffset.transform.position;
+
             if(_camera.fieldOfView != scoppedFOV)
             {
                 _camera.fieldOfView--;
@@ -145,7 +150,7 @@ public class ShootingManager : MonoBehaviour
     }
     private void TextControlling()
     {
-            string bulletUIText = bulletCount + "/30";
+            string bulletUIText = bulletCount + "/" + inClipBulletsCount;
             bulletsText.text = bulletUIText;
 
             magazineText.text = magazinesCount.ToString();

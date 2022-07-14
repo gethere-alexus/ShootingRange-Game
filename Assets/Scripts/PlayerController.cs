@@ -20,14 +20,6 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate() 
     {
         boost = ReturnCalculatedBoost(boost , boostMultiply  , isBoostAvaible);
-        if(boost > 1)
-        {
-            _mainAnimator.SetBool("isPlayerRun" , true);
-        }
-        else
-        {
-            _mainAnimator.SetBool("isPlayerRun" , false);
-        }
 
         MovePlayer();
 
@@ -56,14 +48,6 @@ public class PlayerController : MonoBehaviour
         var horizontalInput = ReturnInput("Horizontal" , _speed , boost);
         var verticalInput = ReturnInput("Vertical" , _speed , boost);
 
-        if(horizontalInput != 0 || verticalInput != 0)
-        {
-            _mainAnimator.SetBool("isPlayerMove" ,true);
-        }
-        else
-        {
-            _mainAnimator.SetBool("isPlayerMove" , false);
-        }
 
         transform.Translate(Vector3.forward * verticalInput);
         transform.Translate(Vector3.right * horizontalInput);

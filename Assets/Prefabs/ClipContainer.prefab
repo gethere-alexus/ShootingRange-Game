@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7036584601890279069}
   - component: {fileID: 7040903606594052917}
-  - component: {fileID: 7040903606594052916}
+  - component: {fileID: 4689346157963701}
+  - component: {fileID: 695281850}
   m_Layer: 0
   m_Name: ClipContainer
   m_TagString: Untagged
@@ -25,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7039343996248474515}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.138594, y: -8.382326, z: 1.2369647}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7041917389594203635}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &7040903606594052917
 SphereCollider:
@@ -47,7 +48,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 118.6
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7040903606594052916
+--- !u!114 &4689346157963701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,7 +62,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   takeText: {fileID: 0}
   typeCrate: 1
-  shootingManager: {fileID: 0}
+  gunManager: {fileID: 0}
+  healthSystem: {fileID: 0}
+--- !u!65 &695281850
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039343996248474515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 93.72746, y: 45.482807, z: 50}
+  m_Center: {x: 3.4757762, y: 20.871153, z: 0}
 --- !u!1 &7040814623259558057
 GameObject:
   m_ObjectHideFlags: 0
